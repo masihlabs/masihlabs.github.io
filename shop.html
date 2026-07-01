@@ -290,7 +290,7 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xwvdnond"; // same endpoint used by the contact form
 
-let supabase = null;
+let supabaseClient = null;
 let allCategories = new Set();
 let requestList = new Map(); // id -> {name, sku, qty}
 
@@ -382,7 +382,7 @@ async function populateCategories() {
 }
 
 async function loadCategories() {
-  const { data, error } = await supabase.from('components').select('category');
+  const { data, error } = await supabaseClient.from('components').select('category');
   if (!error && data) {
     data.forEach(row => { if (row.category) allCategories.add(row.category); });
     populateCategories();
@@ -403,7 +403,7 @@ async function runSearch() {
 
   statusText.textContent = "Searching…";
 
-  let query = supabase.from('components').select('*').order('name', { ascending: true });
+  let query = supabaseClient.from('components').select('*').order('name', { ascending: true });
   if (q) {
     query = query.or(`name.ilike.%${q}%,description.ilike.%${q}%,sku.ilike.%${q}%`);
   }
@@ -457,7 +457,7 @@ async function init() {
     runSearch();
     return;
   }
-  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   await loadCategories();
   await runSearch();
 }

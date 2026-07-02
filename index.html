@@ -393,6 +393,55 @@
     .content-grid { grid-template-columns: 1fr; }
   }
 
+  /* ---------- WORKSHOP PHOTO ---------- */
+  .workshop-photo {
+    position: relative;
+    margin-top: 44px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--navy);
+  }
+  .workshop-photo img {
+    display: block;
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    object-position: center 42%;
+    filter: url(#brandDuotone) saturate(1.15) contrast(1.06);
+  }
+  .workshop-photo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(8,20,39,0.05) 0%, rgba(8,20,39,0.15) 45%, rgba(8,20,39,0.92) 100%);
+  }
+  .workshop-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 0 1px rgba(200,150,62,0.25);
+    border-radius: 6px;
+    pointer-events: none;
+  }
+  .workshop-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 28px 32px 24px;
+    z-index: 2;
+  }
+  .workshop-caption .eyebrow { color: var(--gold-light); margin-bottom: 8px; display: block; }
+  .workshop-caption p {
+    max-width: 540px;
+    color: rgba(242,238,227,0.88);
+    font-size: 15px;
+  }
+  @media (max-width: 760px) {
+    .workshop-photo img { height: 300px; }
+    .workshop-caption { padding: 20px 20px 18px; }
+  }
+
   /* contact form */
   .contact-section { background: var(--cream); padding: 80px 32px; }
   .contact-inner { max-width: 640px; margin: 0 auto; }
@@ -428,6 +477,19 @@
 </style>
 </head>
 <body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="brandDuotone" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0"/>
+      <feComponentTransfer>
+        <feFuncR type="table" tableValues="0.051 0.784"/>
+        <feFuncG type="table" tableValues="0.122 0.588"/>
+        <feFuncB type="table" tableValues="0.235 0.243"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+</svg>
 
 <nav>
   <div class="nav-inner">
@@ -581,6 +643,15 @@
       <h2>Selected work.</h2>
       <p>A glimpse of what we've shipped recently. <a href="projects.html" style="color:var(--gold);font-weight:600">See all projects &rarr;</a></p>
     </div>
+
+    <div class="workshop-photo">
+      <img src="workshop-soldering.jpg" alt="Hands soldering electronic components on a circuit board at the Masih Labs workshop">
+      <div class="workshop-caption">
+        <span class="eyebrow">On the bench</span>
+        <p>Every product starts here — hand-soldered boards on the Kampala workshop bench, long before they become a shipped unit.</p>
+      </div>
+    </div>
+
     <div class="division-list" style="border-top: 1px solid var(--line);">
       <div class="division-row">
         <div class="num">—</div>

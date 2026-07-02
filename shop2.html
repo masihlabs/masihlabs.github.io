@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shop — Masih Labs</title>
-<meta name="description" content="Search electronics components, modules, and tools in stock at Masih Labs.">
+<title>Smart Furniture Shop — Masih Labs</title>
+<meta name="description" content="Search smart furniture parts, robotic mechanisms, and Custom Movable Homes components in stock at Masih Labs.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -18,6 +18,7 @@
     --ink: #1A1A18;
     --line: rgba(13,31,60,0.14);
     --c-ecom: #2C6E6B;
+    --c-furniture: #3A5A78;
     --danger: #A8482E;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -126,8 +127,8 @@
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 22px;
   }
 
   .card {
@@ -140,7 +141,7 @@
   }
   .card .product-image {
     width:100%;
-    height:160px;
+    height:320px;
     overflow:hidden;
     border-radius:10px;
     margin-bottom:15px;
@@ -156,8 +157,8 @@
     align-self: flex-start;
     font-family: 'JetBrains Mono', monospace;
     font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em;
-    color: var(--c-ecom);
-    background: rgba(44,110,107,0.1);
+    color: var(--c-furniture);
+    background: rgba(58,90,120,0.1);
     padding: 3px 8px; border-radius: 3px;
   }
   .card h3 {
@@ -179,7 +180,7 @@
     font-size: 11.5px; font-family: 'JetBrains Mono', monospace;
     padding: 2px 7px; border-radius: 3px;
   }
-  .stock.in { background: rgba(44,110,107,0.12); color: var(--c-ecom); }
+  .stock.in { background: rgba(58,90,120,0.12); color: var(--c-furniture); }
   .stock.low { background: rgba(200,150,62,0.15); color: #8a6420; }
   .stock.out { background: rgba(168,72,46,0.12); color: var(--danger); }
   .card .actions { display: flex; gap: 8px; }
@@ -190,7 +191,7 @@
     font-size: 13px; font-weight: 600; cursor: pointer;
   }
   .card button.add:hover { background: var(--navy-deep); }
-  .card button.add.added { background: var(--c-ecom); }
+  .card button.add.added { background: var(--c-furniture); }
   .card a.datasheet {
     font-size: 12.5px; color: var(--gold); text-decoration: none; font-weight: 600;
     display: flex; align-items: center;
@@ -246,9 +247,9 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="product-development.html">Product Dev</a></li>
       <li><a href="ecommerce-electronics.html">E-Commerce</a></li>
-      <li><a href="shop.html" style="opacity:1;font-weight:600;color:var(--gold-light)">Shop</a></li>
+      <li><a href="shop.html">Shop</a></li>
       <li><a href="smart-furniture.html">Smart Furniture</a></li>
-      <li><a href="shop2.html">Furniture Shop</a></li>
+      <li><a href="shop2.html" style="opacity:1;font-weight:600;color:var(--gold-light)">Furniture Shop</a></li>
       <li><a href="software-integration.html">Software</a></li>
       <li><a href="innovation-capacity.html">Innovation</a></li>
       <li><a href="projects.html">Projects</a></li>
@@ -259,12 +260,12 @@
 
 <header class="shop-hero">
   <div class="shop-hero-inner">
-    <span class="eyebrow">Component shop — live inventory</span>
-    <h1>Find the part. Start building.</h1>
-    <p class="lede">Search our in-stock components, modules, and tools. Add what you need to a request and we'll follow up with pricing and availability.</p>
+    <span class="eyebrow">Smart Furniture &amp; CMH shop — live inventory</span>
+    <h1>Find the part. Build the piece.</h1>
+    <p class="lede">Search in-stock motors, actuators, sensors, controllers, and fittings used across our robotic furniture and Custom Movable Homes work. Add what you need to a request and we'll follow up with pricing and availability.</p>
 
     <div class="search-bar">
-      <input type="search" id="searchInput" placeholder="Search by name, SKU, or description (e.g. ESP32, 10k resistor, oscilloscope)" aria-label="Search components">
+      <input type="search" id="searchInput" placeholder="Search by name, SKU, or description (e.g. linear actuator, servo motor, IoT relay)" aria-label="Search components">
       <select id="categorySelect" aria-label="Filter by category">
         <option value="">All categories</option>
       </select>
@@ -305,6 +306,12 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xwvdnond"; // same endpoint used by the contact form
 
+/* This shop only shows components tagged with these categories in the
+   'components' table. Edit this list to match how you tag Smart
+   Furniture / Custom Movable Homes parts in Supabase. Leave the array
+   empty ([]) to show the full catalog instead. */
+const CATEGORY_FILTER = ["Smart Furniture", "Custom Movable Homes", "Furniture Robotics"];
+
 let supabaseClient = null;
 let allCategories = new Set();
 let requestList = new Map(); // id -> {name, sku, qty}
@@ -331,7 +338,7 @@ function renderGrid(items) {
   resultCount.textContent = items.length + (items.length === 1 ? ' item' : ' items');
 
   if (items.length === 0) {
-    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="big">No matches</div>Try a different search term or clear the category filter.</div>';
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="big">No matches</div>Try a different search term, clear the category filter, or check the general <a href="shop.html" style="color:var(--c-furniture);font-weight:600">component shop</a>.</div>';
     return;
   }
 
@@ -405,7 +412,11 @@ async function populateCategories() {
 }
 
 async function loadCategories() {
-  const { data, error } = await supabaseClient.from('components').select('category');
+  let query = supabaseClient.from('components').select('category');
+  if (CATEGORY_FILTER.length) {
+    query = query.in('category', CATEGORY_FILTER);
+  }
+  const { data, error } = await query;
   if (!error && data) {
     data.forEach(row => { if (row.category) allCategories.add(row.category); });
     populateCategories();
@@ -419,7 +430,7 @@ async function runSearch() {
 
   if (!configured()) {
     statusText.textContent = "Shop not connected yet — see setup instructions.";
-    document.getElementById('grid').innerHTML = '<div class="error-state" style="grid-column:1/-1">This catalog isn\'t connected to a database yet. Paste your Supabase URL and anon key into shop.html to go live.</div>';
+    document.getElementById('grid').innerHTML = '<div class="error-state" style="grid-column:1/-1">This catalog isn\'t connected to a database yet. Paste your Supabase URL and anon key into shop2.html to go live.</div>';
     document.getElementById('resultCount').textContent = "— items";
     return;
   }
@@ -427,6 +438,9 @@ async function runSearch() {
   statusText.textContent = "Searching…";
 
   let query = supabaseClient.from('components').select('*').order('name', { ascending: true });
+  if (CATEGORY_FILTER.length) {
+    query = query.in('category', CATEGORY_FILTER);
+  }
   if (q) {
     query = query.or(`name.ilike.%${q}%,description.ilike.%${q}%,sku.ilike.%${q}%`);
   }
@@ -455,8 +469,8 @@ document.getElementById('clearTray').addEventListener('click', () => {
 document.getElementById('sendTray').addEventListener('click', async () => {
   const lines = [...requestList.values()].map(i => `- ${i.name}${i.sku ? ' (SKU: ' + i.sku + ')' : ''}`).join('\n');
   const body = new FormData();
-  body.append('_subject', 'New component request from shop.html');
-  body.append('message', `Component request:\n\n${lines}`);
+  body.append('_subject', 'New component request from shop2.html (Smart Furniture)');
+  body.append('message', `Smart Furniture / CMH component request:\n\n${lines}`);
   try {
     await fetch(FORMSPREE_ENDPOINT, { method: 'POST', body, headers: { 'Accept': 'application/json' } });
     alert('Request sent — we will follow up by email shortly.');

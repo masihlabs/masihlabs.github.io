@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Designs — Masih Labs</title>
+<meta name="description" content="STL and DXF design files for CNC joints, robotic mounts, and Smart Furniture parts — from Masih Labs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0D1F3C;
+    --navy-deep: #081427;
+    --gold: #C8963E;
+    --gold-light: #E0B66A;
+    --cream: #F2EEE3;
+    --paper: #FBFAF6;
+    --ink: #1A1A18;
+    --line: rgba(13,31,60,0.14);
+    --c-ecom: #2C6E6B;
+    --danger: #A8482E;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--paper); color: var(--ink); }
+  a { color: inherit; }
+
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--navy);
+    border-bottom: 1px solid rgba(242,238,227,0.1);
+  }
+  .nav-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; color: var(--cream); font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 17px; text-decoration: none; }
+  .nav-links { display: flex; gap: 26px; list-style: none; }
+  .nav-links a { color: rgba(242,238,227,0.78); text-decoration: none; font-size: 14px; font-weight: 500; }
+  .nav-links a:hover { color: var(--cream); }
+  .nav-cta { background: var(--gold); color: var(--navy-deep); text-decoration: none; padding: 9px 18px; border-radius: 3px; font-size: 13.5px; font-weight: 600; }
+  @media (max-width: 860px) { .nav-links { display: none; } }
+
+  header.shop-hero { background: var(--navy); color: var(--cream); padding: 56px 32px 40px; }
+  .shop-hero-inner { max-width: 1180px; margin: 0 auto; }
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-light); }
+  .shop-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 4.2vw, 42px); font-weight: 600; letter-spacing: -0.02em; margin-top: 12px; max-width: 640px; }
+  .shop-hero p.lede { margin-top: 14px; max-width: 560px; font-size: 15.5px; color: rgba(242,238,227,0.78); }
+
+  .search-bar { margin-top: 30px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .search-bar input[type="search"] {
+    flex: 1 1 320px; background: rgba(242,238,227,0.06); border: 1px solid rgba(242,238,227,0.22);
+    color: var(--cream); padding: 13px 16px; border-radius: 4px; font-size: 15px; font-family: 'Inter', sans-serif;
+  }
+  .search-bar input[type="search"]::placeholder { color: rgba(242,238,227,0.45); }
+  .search-bar input[type="search"]:focus, select:focus, button:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 1px; }
+  .search-bar select {
+    background: rgba(242,238,227,0.06); border: 1px solid rgba(242,238,227,0.22); color: var(--cream);
+    padding: 13px 14px; border-radius: 4px; font-size: 14.5px; font-family: 'Inter', sans-serif;
+  }
+  .search-bar select option { color: var(--ink); }
+
+  main.catalog { max-width: 1180px; margin: 0 auto; padding: 40px 32px 100px; }
+  .catalog-status {
+    font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #6b6b64; margin-bottom: 20px;
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  .catalog-status .readout { background: var(--navy); color: var(--gold-light); padding: 4px 10px; border-radius: 3px; letter-spacing: 0.02em; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+
+  .card { background: var(--cream); border: 1px solid var(--line); border-radius: 6px; padding: 18px; display: flex; flex-direction: column; gap: 10px; position: relative; }
+  .card .product-image { width:100%; height:170px; overflow:hidden; border-radius:10px; margin-bottom:6px; background:#e8e4d8; display:flex; align-items:center; justify-content:center; }
+  .card .product-image img { width:100%; height:100%; object-fit:cover; display:block; }
+  .card .product-image .placeholder { font-family:'JetBrains Mono', monospace; font-size:11px; color:#8a8a7f; text-transform:uppercase; letter-spacing:0.05em; }
+  .card .cat-tag {
+    align-self: flex-start; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--gold); background: rgba(200,150,62,0.12); padding: 3px 8px; border-radius: 3px;
+  }
+  .card .filetype-tag {
+    align-self: flex-start; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--c-ecom); background: rgba(44,110,107,0.1); padding: 3px 8px; border-radius: 3px; margin-left: 6px;
+  }
+  .card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 16.5px; font-weight: 600; color: var(--navy); line-height: 1.3; }
+  .card .sku { font-size: 12px; color: #6b6b64; font-family: 'JetBrains Mono', monospace; }
+  .card p.desc { font-size: 13.5px; color: #45453F; line-height: 1.45; flex: 1; }
+  .card .meta-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 10px; }
+  .card .price { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 500; color: var(--navy); }
+  .card button.buy {
+    background: var(--navy); color: var(--cream); border: none; padding: 10px 14px; border-radius: 3px;
+    font-size: 13.5px; font-weight: 600; cursor: pointer; width: 100%;
+  }
+  .card button.buy:hover { background: var(--navy-deep); }
+
+  .empty-state, .error-state { text-align: center; padding: 60px 20px; color: #6b6b64; font-size: 14.5px; grid-column: 1/-1; }
+  .error-state { color: var(--danger); }
+  .empty-state .big { font-family: 'Space Grotesk', sans-serif; font-size: 18px; color: var(--navy); margin-bottom: 8px; }
+
+  /* ---------- ORDER MODAL ---------- */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(8,20,39,0.6);
+    z-index: 100; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.visible { display: flex; }
+  .modal {
+    background: var(--paper); border-radius: 8px; max-width: 480px; width: 100%;
+    padding: 28px; max-height: 90vh; overflow-y: auto;
+  }
+  .modal h2 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; color: var(--navy); margin-bottom: 4px; }
+  .modal .modal-product { font-size: 13.5px; color: #6b6b64; margin-bottom: 18px; }
+  .momo-box {
+    background: rgba(44,110,107,0.08); border: 1px solid rgba(44,110,107,0.2); border-radius: 6px;
+    padding: 14px 16px; margin-bottom: 18px; font-size: 13.5px; line-height: 1.6;
+  }
+  .momo-box strong { color: var(--navy); }
+  .momo-box .step { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--c-ecom); display: block; margin-top: 6px; }
+  .modal label { display: block; font-size: 12.5px; font-weight: 600; color: var(--navy); margin: 12px 0 5px; }
+  .modal input, .modal select {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 4px;
+    font-size: 14px; font-family: 'Inter', sans-serif; background: #fff;
+  }
+  .modal input:focus, .modal select:focus { outline: 2px solid var(--gold-light); outline-offset: 1px; }
+  .modal .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+  .modal button.submit-order {
+    flex: 1; background: var(--gold); color: var(--navy-deep); border: none; padding: 11px 14px;
+    border-radius: 4px; font-size: 14px; font-weight: 600; cursor: pointer;
+  }
+  .modal button.submit-order:disabled { opacity: 0.6; cursor: not-allowed; }
+  .modal button.cancel { background: none; border: 1px solid var(--line); color: var(--ink); padding: 11px 14px; border-radius: 4px; font-size: 14px; cursor: pointer; }
+  .modal .confirm-msg { font-size: 13.5px; color: var(--c-ecom); margin-top: 14px; display: none; }
+  .modal .confirm-msg.visible { display: block; }
+  .modal .error-msg { font-size: 13px; color: var(--danger); margin-top: 10px; display: none; }
+  .modal .error-msg.visible { display: block; }
+
+  footer.shop-footer { background: var(--navy-deep); color: rgba(242,238,227,0.55); padding: 28px 32px; text-align: center; font-size: 12.5px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Masih Labs</a>
+    <ul class="nav-links">
+      <li><a href="shop.html">Component Shop</a></li>
+      <li><a href="shop2.html">Furniture Shop</a></li>
+      <li><a href="designs.html">Digital Designs</a></li>
+      <li><a href="software-integration.html">Software</a></li>
+      <li><a href="projects.html">Projects</a></li>
+    </ul>
+    <a class="nav-cta" href="index.html#contact-form">Start a project</a>
+  </div>
+</nav>
+
+<header class="shop-hero">
+  <div class="shop-hero-inner">
+    <span class="eyebrow">Digital designs — STL &amp; DXF files</span>
+    <h1>Files ready for your CNC or printer.</h1>
+    <p class="lede">Parametric joints, robotic mounts, and Smart Furniture parts — tested in our own builds. Pay by Mobile Money and get your download link within a few hours.</p>
+
+    <div class="search-bar">
+      <input type="search" id="searchInput" placeholder="Search designs (e.g. box joint, servo mount)" aria-label="Search designs">
+      <select id="categorySelect" aria-label="Filter by category">
+        <option value="">All categories</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main class="catalog">
+  <div class="catalog-status">
+    <span id="statusText">Loading designs…</span>
+    <span class="readout" id="resultCount">— items</span>
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer class="shop-footer">
+  © 2026 Masih Labs Technologies Limited. Kampala, Uganda. &nbsp;·&nbsp;
+  <a href="mailto:masihlabs@mail.com" style="color:var(--gold-light);text-decoration:none">masihlabs@mail.com</a>
+</footer>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h2>Buy this design</h2>
+    <div class="modal-product" id="modalProductLine">—</div>
+
+    <div class="momo-box">
+      <strong>How to pay:</strong>
+      <span class="step">1. Send the exact amount to MTN MoMo: [YOUR_MTN_NUMBER] or Airtel Money: [YOUR_AIRTEL_NUMBER]</span>
+      <span class="step">2. Copy the transaction reference from the confirmation SMS</span>
+      <span class="step">3. Fill in the form below — we verify and email your download link, usually within a few hours</span>
+    </div>
+
+    <form id="orderForm">
+      <label for="buyerName">Your name</label>
+      <input type="text" id="buyerName" required placeholder="Full name">
+
+      <label for="buyerContact">Email or WhatsApp number</label>
+      <input type="text" id="buyerContact" required placeholder="you@email.com or +2567...">
+
+      <label for="momoNetwork">Network</label>
+      <select id="momoNetwork" required>
+        <option value="MTN">MTN Mobile Money</option>
+        <option value="Airtel">Airtel Money</option>
+      </select>
+
+      <label for="momoReference">Transaction reference / SMS code</label>
+      <input type="text" id="momoReference" required placeholder="e.g. MP240705.1234.A56789">
+
+      <div class="modal-actions">
+        <button type="button" class="cancel" id="cancelOrder">Cancel</button>
+        <button type="submit" class="submit-order" id="submitOrder">Submit order</button>
+      </div>
+
+      <div class="error-msg" id="orderError">Something went wrong — please try again or email masihlabs@mail.com directly.</div>
+      <div class="confirm-msg" id="orderConfirm">✓ Order received. We'll verify your payment and email your download link shortly.</div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* =========================================================
+   CONFIG — same Supabase project as shop.html.
+   ========================================================= */
+const SUPABASE_URL = "https://xstehwlnpopiificoefn.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhzdGVod2xucG9waWlmaWNvZWZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4OTkwMTksImV4cCI6MjA5ODQ3NTAxOX0.rj-F6XKqeRLiENBC9WlUJYighAnqJuTp7b3zAdCkofA";
+/* ========================================================= */
+
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xwvdnond"; // reuse existing endpoint so you get an email too
+
+let supabaseClient = null;
+let allCategories = new Set();
+let allProducts = [];
+let selectedProduct = null;
+
+function configured() {
+  return SUPABASE_URL && !SUPABASE_URL.includes("YOUR_") && SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.includes("YOUR_");
+}
+
+function money(value, currency) {
+  if (value === null || value === undefined) return "Contact for price";
+  return (currency || "UGX") + " " + Number(value).toLocaleString();
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+}
+
+function renderGrid(items) {
+  const grid = document.getElementById('grid');
+  const resultCount = document.getElementById('resultCount');
+  resultCount.textContent = items.length + (items.length === 1 ? ' item' : ' items');
+
+  if (items.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><div class="big">No matches</div>Try a different search term or clear the category filter.</div>';
+    return;
+  }
+
+  grid.innerHTML = items.map(item => `
+    <div class="card">
+      <div class="product-image">
+        ${item.preview_image_url
+          ? `<img src="${item.preview_image_url}" alt="${escapeHtml(item.name)}" loading="lazy">`
+          : `<span class="placeholder">Preview coming soon</span>`}
+      </div>
+      <div>
+        <span class="cat-tag">${escapeHtml(item.category || 'Design')}</span>${item.file_type ? '<span class="filetype-tag">' + escapeHtml(item.file_type) + '</span>' : ''}
+      </div>
+      <h3>${escapeHtml(item.name)}</h3>
+      ${item.sku ? '<span class="sku">' + escapeHtml(item.sku) + '</span>' : ''}
+      <p class="desc">${escapeHtml(item.description || '')}</p>
+      <div class="meta-row">
+        <span class="price">${money(item.price, item.currency)}</span>
+      </div>
+      <button class="buy" data-id="${item.id}">Buy via Mobile Money</button>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('button.buy').forEach(btn => {
+    btn.addEventListener('click', () => openOrderModal(btn.dataset.id));
+  });
+}
+
+async function populateCategories() {
+  const select = document.getElementById('categorySelect');
+  select.querySelectorAll('option:not(:first-child)').forEach(o => o.remove());
+  [...allCategories].sort().forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat;
+    opt.textContent = cat;
+    select.appendChild(opt);
+  });
+}
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const category = document.getElementById('categorySelect').value;
+  const statusText = document.getElementById('statusText');
+
+  let filtered = allProducts;
+  if (category) filtered = filtered.filter(p => p.category === category);
+  if (q) {
+    filtered = filtered.filter(p =>
+      (p.name || '').toLowerCase().includes(q) ||
+      (p.description || '').toLowerCase().includes(q) ||
+      (p.sku || '').toLowerCase().includes(q)
+    );
+  }
+  statusText.textContent = q || category ? "Showing filtered results" : "Showing all designs";
+  renderGrid(filtered);
+}
+
+async function loadProducts() {
+  const statusText = document.getElementById('statusText');
+
+  if (!configured()) {
+    statusText.textContent = "Shop not connected yet — see setup instructions.";
+    document.getElementById('grid').innerHTML = '<div class="error-state">This page isn\'t connected to a database yet. Paste your Supabase URL and anon key into designs.html to go live.</div>';
+    document.getElementById('resultCount').textContent = "— items";
+    return;
+  }
+
+  statusText.textContent = "Loading…";
+  const { data, error } = await supabaseClient
+    .from('digital_products')
+    .select('*')
+    .eq('active', true)
+    .order('name', { ascending: true });
+
+  if (error) {
+    statusText.textContent = "Something went wrong loading designs.";
+    document.getElementById('grid').innerHTML = '<div class="error-state">' + escapeHtml(error.message) + '</div>';
+    return;
+  }
+
+  allProducts = data || [];
+  allProducts.forEach(p => { if (p.category) allCategories.add(p.category); });
+  populateCategories();
+  applyFilters();
+}
+
+function openOrderModal(productId) {
+  selectedProduct = allProducts.find(p => p.id === productId);
+  if (!selectedProduct) return;
+
+  document.getElementById('modalProductLine').textContent =
+    selectedProduct.name + ' — ' + money(selectedProduct.price, selectedProduct.currency);
+  document.getElementById('orderForm').reset();
+  document.getElementById('orderError').classList.remove('visible');
+  document.getElementById('orderConfirm').classList.remove('visible');
+  document.getElementById('orderForm').style.display = 'block';
+  document.getElementById('modalOverlay').classList.add('visible');
+}
+
+function closeOrderModal() {
+  document.getElementById('modalOverlay').classList.remove('visible');
+  selectedProduct = null;
+}
+
+document.getElementById('cancelOrder').addEventListener('click', closeOrderModal);
+document.getElementById('modalOverlay').addEventListener('click', (e) => {
+  if (e.target.id === 'modalOverlay') closeOrderModal();
+});
+
+document.getElementById('orderForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!selectedProduct) return;
+
+  const submitBtn = document.getElementById('submitOrder');
+  const errorMsg = document.getElementById('orderError');
+  errorMsg.classList.remove('visible');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting…';
+
+  const orderData = {
+    product_id: selectedProduct.id,
+    product_name: selectedProduct.name,
+    buyer_name: document.getElementById('buyerName').value.trim(),
+    buyer_contact: document.getElementById('buyerContact').value.trim(),
+    momo_network: document.getElementById('momoNetwork').value,
+    momo_reference: document.getElementById('momoReference').value.trim(),
+    amount_paid: selectedProduct.price
+  };
+
+  try {
+    // 1. Log the order in Supabase so you have a queue to work from
+    const { error } = await supabaseClient.from('digital_orders').insert(orderData);
+    if (error) throw error;
+
+    // 2. Also email you immediately via Formspree, same as the component request tray
+    const body = new FormData();
+    body.append('_subject', 'New digital design order — ' + selectedProduct.name);
+    body.append('message',
+      `New digital download order:\n\n` +
+      `Product: ${orderData.product_name}\n` +
+      `Amount: ${money(selectedProduct.price, selectedProduct.currency)}\n` +
+      `Buyer: ${orderData.buyer_name}\n` +
+      `Contact: ${orderData.buyer_contact}\n` +
+      `Network: ${orderData.momo_network}\n` +
+      `Reference: ${orderData.momo_reference}\n\n` +
+      `Verify payment, then generate a signed URL from Supabase Storage and send it to the buyer.`
+    );
+    await fetch(FORMSPREE_ENDPOINT, { method: 'POST', body, headers: { 'Accept': 'application/json' } });
+
+    document.getElementById('orderForm').style.display = 'none';
+    document.getElementById('orderConfirm').classList.add('visible');
+  } catch (err) {
+    errorMsg.classList.add('visible');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit order';
+  }
+});
+
+let debounceTimer;
+document.getElementById('searchInput').addEventListener('input', () => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(applyFilters, 250);
+});
+document.getElementById('categorySelect').addEventListener('change', applyFilters);
+
+async function init() {
+  if (!configured()) {
+    loadProducts();
+    return;
+  }
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  await loadProducts();
+}
+
+init();
+</script>
+</body>
+</html>
